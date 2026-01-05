@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+
+# Environment Variables
+.env
+
+# Data Files (데이터 파일은 용량이 클 수 있으므로 제외 추천)
+data/
+*.csv
+*.txt
+*.xlsx
+
+# IDE Settings
+.vscode/
+.idea/
