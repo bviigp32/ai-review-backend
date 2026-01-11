@@ -6,7 +6,7 @@ import plotly.express as px
 # 1. 페이지 기본 설정 (제목, 레이아웃)
 st.set_page_config(page_title="Review Dashboard", layout="wide")
 
-st.title("📊 AI Review Analytics Dashboard")
+st.title("AI Review Analytics Dashboard")
 st.markdown("---")
 
 # 백엔드 API 주소
@@ -80,7 +80,7 @@ if stats:
                 st.dataframe(df_best[['content', 'confidence']], hide_index=True)
 
         with col_worst:
-            st.error("🚨 Worst Reviews (부정 Top 3)")
+            st.error("Worst Reviews (부정 Top 3)")
             df_worst = pd.DataFrame(ranking['worst_reviews'])
             if not df_worst.empty:
                 st.dataframe(df_worst[['content', 'confidence']], hide_index=True)

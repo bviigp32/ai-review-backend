@@ -9,6 +9,7 @@
 ## 기술 스택 (Tech Stack)
 - **Language**: Python 3.11
 - **Framework**: FastAPI
+- **Visualization**: Streamlit, Plotly  
 - **AI/ML**: Hugging Face Transformers (KoELECTRA Model), PyTorch
 - **Database**: SQLite (SQLAlchemy ORM)
 - **Data Engineering**: Pandas, TQDM (Batch Processing)
@@ -22,6 +23,9 @@
 3.  **실시간 통계 및 랭킹 분석**
     - 전체 리뷰의 긍정/부정 비율 자동 계산 (`/stats`)
     - 확신도가 높은 'Best 리뷰'와 'Worst 리뷰' Top 3 추출 (`/ranking`)
+4. **데이터 시각화 대시보드 (Interactive Dashboard)** 
+    - Streamlit 기반의 웹 대시보드 제공
+    - 긍정/부정 비율 파이 차트 및 리뷰 랭킹 테이블 시각화
 
 ## API 명세 (API Usage)
 
@@ -41,5 +45,22 @@
 **GET** `/ranking`
 - 가장 긍정적인/부정적인 리뷰 Top 3 반환
 
+## 실행 방법 (How to Run)
+
+### 1. Backend Server 실행
+```bash
+uvicorn main:app --reload
+```
+API 서버는 http://127.0.0.1:8000에서 실행됩니다.
+
+2. Dashboard 실행
+
+```bash
+streamlit run dashboard.py
+```
+대시보드는 http://localhost:8501에서 자동으로 열립니다.
+
 ---
 Dev Log: 매일 기능을 추가하며 업데이트 중입니다.
+
+
