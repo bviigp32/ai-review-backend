@@ -15,7 +15,7 @@ API_URL = "http://127.0.0.1:8000"
 # 2. 데이터 가져오기 함수
 def fetch_stats():
     try:
-        response = requests.get(f"{API_URL}/stats")
+        response = requests.get(f"{API_URL}/analytics/stats")
         if response.status_code == 200:
             return response.json()
         else:
@@ -27,7 +27,7 @@ def fetch_stats():
 
 def fetch_ranking():
     try:
-        response = requests.get(f"{API_URL}/ranking")
+        response = requests.get(f"{API_URL}/analytics/ranking")
         if response.status_code == 200:
             return response.json()
         return None
@@ -50,7 +50,7 @@ if stats:
     st.markdown("---")
 
     # [Section 2] 차트 그리기 (긍정/부정 비율)
-    st.subheader("📈 긍정 vs 부정 비율")
+    st.subheader("긍정 vs 부정 비율")
     
     # 데이터프레임 만들기
     df_sentiment = pd.DataFrame({
