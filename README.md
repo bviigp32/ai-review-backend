@@ -1,66 +1,117 @@
-# AI Shopping Review Analyzer (AI 쇼핑 리뷰 분석기)
+### README.md 
 
-사용자의 쇼핑 리뷰 텍스트를 입력받아 **AI(Deep Learning)** 모델을 통해 긍정/부정을 분석하고, 통계 데이터를 제공하는 백엔드 API 서비스입니다.
+```markdown
+# AI Shopping Review Analytics (AI 쇼핑 리뷰 분석 솔루션)
 
-## 프로젝트 소개
-이 프로젝트는 대량의 리뷰 데이터를 효율적으로 처리하고, 비즈니스 인사이트를 도출하기 위해 구축되었습니다.
-단순한 CRUD를 넘어 **AI 모델 서빙**, **대용량 데이터 배치 처리**, **데이터 분석 API**까지 포함된 올인원 백엔드 파이프라인을 지향합니다.
+사용자의 쇼핑 리뷰 텍스트를 **AI(Deep Learning)** 모델로 분석하여 긍정/부정 여부를 판단하고, **실시간 대시보드**를 통해 비즈니스 인사이트를 제공하는 **Full-Cycle 백엔드 프로젝트**입니다.
+
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python) ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688?logo=fastapi) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker) ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?logo=streamlit)
+
+## 실행 화면 (Screenshots)
+| **Dashboard (Streamlit)** | **API Docs (Swagger UI)** |
+|:-------------------------:|:-------------------------:|
+| ![Dashboard](./images/dashboard_preview.png) | ![Swagger](./images/api_preview.png) |
+
+## 프로젝트 소개 (Overview)
+이 프로젝트는 대량의 리뷰 데이터를 효율적으로 처리하고 분석하기 위해 구축되었습니다. 단순한 CRUD API를 넘어, **AI 모델 서빙, 데이터 배치 처리, 시각화, 컨테이너 배포**까지 포함된 올인원 아키텍처를 지향합니다.
+
+### 주요 기능 (Key Features)
+1.  **AI 감정 분석 (Sentiment Analysis Pipeline)**
+    - Hugging Face의 Pre-trained 한국어 모델(KoELECTRA)을 Fine-tuning 없이 서빙.
+    - Singleton 패턴을 적용하여 모델 로딩 시간을 0초로 단축(Server Warm-up).
+2.  **데이터 엔지니어링 (Batch Processing)**
+    - 20만 건 이상의 대용량 리뷰 데이터를 안정적으로 적재하기 위한 Batch Script 구현.
+    - Bulk Insert 최적화로 데이터 적재 속도 향상.
+3.  **인터랙티브 대시보드 (Interactive Dashboard)**
+    - Streamlit을 활용하여 별도의 프론트엔드 구축 없이 데이터 시각화 구현.
+    - 실시간 긍정/부정 비율 파이 차트 및 키워드 랭킹 제공.
+4.  **MSA 지향 아키텍처 & 배포 (Dockerized Architecture)**
+    - `APIRouter`를 활용한 도메인별(Reviews, Analytics) 모듈 분리.
+    - Docker Compose를 통해 Backend와 Frontend를 원클릭으로 실행 및 연결.
 
 ## 기술 스택 (Tech Stack)
-- **Language**: Python 3.11
-- **Framework**: FastAPI
-- **Visualization**: Streamlit, Plotly  
-- **AI/ML**: Hugging Face Transformers (KoELECTRA Model), PyTorch
-- **Database**: SQLite (SQLAlchemy ORM)
-- **Data Engineering**: Pandas, TQDM (Batch Processing)
 
-## 주요 기능 (Key Features)
-1.  **AI 감정 분석 (Sentiment Analysis)**
-    - 한국어 리뷰 텍스트를 분석하여 긍정/부정 판단 및 확신도(Confidence) 출력
-    - Hugging Face의 Pre-trained 모델 서빙 최적화 (Singleton Pattern 적용)
-2.  **대용량 데이터 배치 처리 (Batch Processing)**
-    - 20만 건 이상의 리뷰 데이터를 배치 단위로 DB에 고속 적재 (Bulk Insert)
-3.  **실시간 통계 및 랭킹 분석**
-    - 전체 리뷰의 긍정/부정 비율 자동 계산 (`/stats`)
-    - 확신도가 높은 'Best 리뷰'와 'Worst 리뷰' Top 3 추출 (`/ranking`)
-4. **데이터 시각화 대시보드 (Interactive Dashboard)** 
-    - Streamlit 기반의 웹 대시보드 제공
-    - 긍정/부정 비율 파이 차트 및 리뷰 랭킹 테이블 시각화
+| Category | Technology |
+| :--- | :--- |
+| **Language** | Python 3.11 |
+| **Backend** | FastAPI, Pydantic, SQLAlchemy |
+| **Database** | SQLite (Production 환경에서 PostgreSQL로 전환 용이) |
+| **AI / ML** | PyTorch, Hugging Face Transformers |
+| **DevOps** | Docker, Docker Compose |
+| **Visualization** | Streamlit, Plotly |
 
-## API 명세 (API Usage)
+## 프로젝트 구조 (File Structure)
+```bash
+ai-review-backend/
+├── routers/               # API 라우터 (기능별 분리)
+│   ├── reviews.py         # 리뷰 분석 및 저장 API
+│   └── analytics.py       # 통계 및 랭킹 조회 API
+├── data/                  # 데이터셋 저장소
+├── models.py              # DB 테이블 스키마 정의 (ORM)
+├── database.py            # DB 연결 설정
+├── ai_model.py            # AI 모델 로딩 및 추론 로직
+├── batch_process.py       # 대량 데이터 배치 처리 스크립트
+├── dashboard.py           # Streamlit 대시보드 코드
+├── main.py                # 앱 진입점 (설정 및 라우터 통합)
+├── Dockerfile             # 도커 이미지 빌드 설정
+├── docker-compose.yml     # 서비스 통합 실행 설정
+└── requirements.txt       # 의존성 패키지 목록
 
-### 1. 리뷰 분석 요청
-**POST** `/analyze`
-```json
-{
-  "content": "배송도 빠르고 상품 퀄리티가 너무 좋아요!"
-}
 ```
-
-### 2. 통계 조회
-**GET** `/stats`
-- 전체 리뷰 수, 긍정/부정 비율, 평균 확신도 반환
-
-### 3. 랭킹 조회
-**GET** `/ranking`
-- 가장 긍정적인/부정적인 리뷰 Top 3 반환
 
 ## 실행 방법 (How to Run)
 
-### 1. Backend Server 실행
+### 방법 1: Docker Compose 실행 (권장)
+
+Docker가 설치되어 있다면 명령어 한 줄로 모든 서비스가 실행됩니다.
+
+```bash
+# 서비스 빌드 및 실행
+docker-compose up --build
+
+```
+
+* **Backend API:** http://localhost:8000/docs
+* **Dashboard:** http://localhost:8501
+
+### 방법 2: 로컬 Python 환경 실행
+
+Docker 없이 로컬에서 실행할 경우, 터미널 2개가 필요합니다.
+
+**1. 환경 설정 및 라이브러리 설치**
+
+```bash
+python -m venv venv
+source venv/bin/activate  # (Windows: venv\Scripts\activate)
+pip install -r requirements.txt
+
+```
+
+**2. Backend 실행 (Terminal 1)**
+
 ```bash
 uvicorn main:app --reload
-```
-API 서버는 http://127.0.0.1:8000에서 실행됩니다.
 
-2. Dashboard 실행
+```
+
+**3. Dashboard 실행 (Terminal 2)**
 
 ```bash
 streamlit run dashboard.py
+
 ```
-대시보드는 http://localhost:8501에서 자동으로 열립니다.
+
+## API 명세 (API Usage)
+
+* **POST** `/reviews/analyze`: 리뷰 텍스트를 입력받아 감정 분석 후 저장.
+* **GET** `/analytics/stats`: 전체 리뷰의 긍정/부정 통계 반환.
+* **GET** `/analytics/ranking`: 확신도가 높은 Best/Worst 리뷰 Top 3 반환.
 
 ---
-Dev Log: 매일 기능을 추가하며 업데이트 중입니다.
+
+*Created by [KyunghunKIM]*
+
+```
+
 
 

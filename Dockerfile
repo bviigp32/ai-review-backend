@@ -2,6 +2,8 @@
 # slim 버전을 쓰면 용량이 훨씬 가볍습니다.
 FROM python:3.11-slim
 
+ENV PYTHONUNBUFFERED=1
+
 # 2. 작업 디렉토리 설정 (리눅스 컴퓨터 안의 /app 폴더에서 작업하겠다)
 WORKDIR /app
 
