@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.express as px
+import os  
 
 # 1. 페이지 기본 설정 (제목, 레이아웃)
 st.set_page_config(page_title="Review Dashboard", layout="wide")
@@ -9,8 +10,9 @@ st.set_page_config(page_title="Review Dashboard", layout="wide")
 st.title("AI Review Analytics Dashboard")
 st.markdown("---")
 
-# 백엔드 API 주소
-API_URL = "http://127.0.0.1:8000"
+# [수정 후] 환경변수에서 주소를 가져오고, 없으면 기본값(127.0.0.1) 사용
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
+
 
 # 2. 데이터 가져오기 함수
 def fetch_stats():
