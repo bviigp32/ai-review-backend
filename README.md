@@ -1,6 +1,5 @@
 ### README.md 
 
-```markdown
 # AI Shopping Review Analytics (AI 쇼핑 리뷰 분석 솔루션)
 
 사용자의 쇼핑 리뷰 텍스트를 **AI(Deep Learning)** 모델로 분석하여 긍정/부정 여부를 판단하고, **실시간 대시보드**를 통해 비즈니스 인사이트를 제공하는 **Full-Cycle 백엔드 프로젝트**입니다.
